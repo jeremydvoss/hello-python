@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, url_for
 app = Flask(__name__)
 import logging
 import requests
-from os.path import exists, isdir
+from os.path import exists
 
 
 # Set up logger
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 @app.route('/')
 def index():
-    return 'Test app'
+    return 'Test app with request and with 0.0.0.0'
 
 
 # Logs -> traces
@@ -126,4 +126,4 @@ if __name__ == '__main__':
     logger.info("JEREMY: run info")
     logger.warning("JEREMY: run warn")
     requests.get('https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=python')
-    app.run()
+    app.run(host='0.0.0.0')

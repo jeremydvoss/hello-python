@@ -26,9 +26,31 @@ spec:
       labels:
         app: hello-python
     spec:
+      initContainers:
+      - name: attach-init
+        image: mcr.microsoft.com/applicationinsights/auto-instrumentation/python:1.0.0b8
+        command: ["cp", "-a", "agents/python/.", "/agenthome/"] # on mount - copy the IPA agents to shared volume
+        volumeMounts:
+          - name: agenthome
+            mountPath: /agenthome
       containers:
       - name: hello-python
         image: hello-python:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 5000
+      # - name: attach
+      #   image: mcr.microsoft.com/cbl-mariner/base/python:3.9
+      #   # image: mcr.microsoft.com/applicationinsights/auto-instrumentation/python:1.0.0b8
+      #   imagePullPolicy: Never
+        # env:
+        # - name: PYTHONPATH
+        #   value: "/agents/python"
+        # - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+        #   value: "InstrumentationKey=ec500fd4-d1b0-48e4-8bea-85d15385b671;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com/"
+        volumeMounts:
+          - name: agenthome
+            mountPath: /agenthome
+      volumes:
+        - name: agenthome # the volume which is shared between the init container and customer's containers
+          emptyDir: {}

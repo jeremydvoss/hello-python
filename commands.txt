@@ -2,3 +2,4 @@ kubectl apply -f ../kubernetes/deployment.yaml
 docker build -f ../Dockerfile -t hello-python:latest .
 kubectl get pods --watch
 kubectl get service hello-python-service --watch
+kubectl logs hello-python-* --all-containers

@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 @app.route('/')
 def index():
-    return 'Test app with request and with 0.0.0.0'
+    return 'Test app with initcontainer'
 
 
 # Logs -> traces
